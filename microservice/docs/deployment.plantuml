@@ -1,0 +1,49 @@
+@startuml
+actor User
+
+node ApiGateway
+
+node UserMicroservice {
+    agent UserService
+    database UserDb
+
+    UserService -> UserDb
+}
+
+node CourseMicroservice {
+    agent CourseService
+    database CourseDb
+
+    CourseService -> CourseDb
+}
+
+
+node WorkloadMicroservice {
+    agent WorkloadService
+    database WorkloadDb
+
+    WorkloadService -> WorkloadDb
+}
+
+
+node SatisfactionMicroservice {
+    agent SatisfactionService
+    database SatisfactionDb
+
+    SatisfactionService -> SatisfactionDb
+}
+
+
+User -right-> ApiGateway : REST
+
+ApiGateway --> UserMicroservice : REST
+ApiGateway --> CourseMicroservice : REST
+ApiGateway --> WorkloadMicroservice : REST
+ApiGateway --> SatisfactionMicroservice : REST
+
+CourseMicroservice --> UserMicroservice : RPC (use internal filters)
+WorkloadMicroservice --> UserMicroservice : RPC (use internal filters)
+WorkloadMicroservice --> CourseMicroservice : RPC (use internal filters)
+SatisfactionMicroservice --> CourseMicroservice : RPC (use internal filters)
+
+@enduml
