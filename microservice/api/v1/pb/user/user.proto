@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "github.com/ArneProductions/DISYS-exercise-1/microservices/api/v1/pb/user";
+
+service UserService {
+    // rpc Get (UserIdRequest) returns (User);
+	// rpc Gets (Empty) returns (GetUsersResponse);
+	// rpc GetIn (GetUsersInRequest) returns (GetUsersResponse);
+	rpc Create (CreateUser) returns (User);
+	// rpc Update (UpdateUserRequest) returns (User);
+	// rpc Delete (UserIdRequest) returns (Empty);
+}
+
+message Empty {
+}
+
+message CreateUser {
+    string name = 1;
+    string mail = 2;
+    optional uint64 popularity = 3;
+    string role = 4;
+}
+
+// TODO: Repetition????
+message User {
+    string name = 1;
+    string mail = 2;
+    uint64 popularity = 3;
+    string role = 4;
+    uint64 id = 5;
+    string created_at = 6;
+    string updated_at = 7;
+    string deleted_at = 8;
+}
+
+message UserIdRequest {
+    uint64 id = 1;
+}
+
+message GetUsersInRequest {
+    repeated uint64 id = 1;
+}
+
+message GetUsersResponse {
+    repeated User users = 1;
+}
+
+message UpdateUserRequest {
+    uint64 id = 1;
+    CreateUser user = 2;
+}
